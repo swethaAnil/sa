@@ -1,0 +1,27 @@
+<html>
+
+<title>SA - 2.0 Order Upload</title>
+<head>
+     <link rel="stylesheet" href="schedule_style.css" type="text/css">
+</head>
+
+<body>
+
+<h2>Service Activations - 2.0 Order Upload</h2>
+
+<h3><font color="red">NOTICE: THIS OPERATION WILL ADD ANY NEW ORDERS TO THE DATABASE AND WILL UPDATE THE INFORMATION FOR ORDERS THAT ALREADY EXIST IN THE DATABASE.</font></h3>
+
+Save excel doc as an XML spreadsheet, then upload it here.<br><br>
+
+<form action="v2_order_verification.php" method="post" enctype="multipart/form-data">
+<label for="file">Spreadsheet Upload - Filename:</label>
+<input type="file" name="file" id="file" />
+<br /><br>
+<input type="submit" name="submit" value="Submit" />
+</form>
+
+
+
+
+</body>
+</html> 

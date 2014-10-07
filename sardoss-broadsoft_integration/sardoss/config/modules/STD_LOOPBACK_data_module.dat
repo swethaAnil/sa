@@ -1,0 +1,39 @@
+
+###############################################
+#   STD_LOOPBACK_data_module
+###############################################
+!
+ip dhcp excluded-address 10.0.1.128 10.0.1.191
+!
+ip dhcp pool [VAR_IADNAME]
+network 10.0.1.0 255.255.255.0
+default-router 10.0.1.1
+dns-server [VAR_PRIMARY_DNS] [VAR_SECONDARY_DNS]
+domain-name [VAR_IAD_FQDN]
+!
+access-list 101 permit ip 10.0.1.0 0.0.0.255 any
+!
+interface [VAR_DATA_INTERFACE]
+description [VAR_ACCT_NAME] - [VAR_ACCT_NUM]
+ip address 10.0.1.1 255.255.255.0
+ip nat inside
+ip virtual-reassembly
+no ip mroute-cache
+no snmp trap link-status
+no cdp enable
+speed auto
+duplex auto
+no logging event link-status
+load-interval 30
+keepalive 10
+no cdp enable
+no shut
+!
+int Loopback0
+description Loopback Interface
+ip address [VAR_IAD_PUBLIC_GATEWAY] [VAR_PUBLIC_SUBNET_MASK]
+ip nat outside
+no shut
+!
+ip nat inside source list 101 interface Loopback0 overload
+! 

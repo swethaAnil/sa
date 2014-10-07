@@ -1,0 +1,11 @@
+
+###############################################
+#   T1_MULTI_TAR_POST_module
+###############################################
+
+!
+int Multilink[VAR_IAD_NUMBER]
+no peer default ip address
+snmp trap link-status
+logging event link-status
+!

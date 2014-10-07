@@ -1,0 +1,155 @@
+
+###############################################
+#   ISR_universal_secondary_module
+###############################################
+!
+!
+no service pad
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+!
+hostname [VAR_IADNAME_SECONDARY]
+!
+logging buffered 4096 informational
+logging rate-limit console 10 except errors
+no logging console
+!
+config-register 0x2102
+!
+aaa new-model
+!
+aaa authentication login default group radius local
+aaa authentication enable default group radius enable
+aaa authorization console
+aaa authorization exec default group radius local 
+aaa accounting exec default start-stop group radius
+aaa accounting commands 15 default start-stop group radius
+aaa accounting system default start-stop group radius
+enable secret wr51dt
+!
+username admin privilege 15 password cpbw1t
+clock timezone [VAR_TIMEZONE]
+clock summer-time [VAR_DAYLIGHT_SAVINGS_TIME] recurring
+!
+no ipv6 cef
+ip source-route
+ip subnet-zero
+ip cef
+!
+crypto pki token default removal timeout 0
+!
+redundancy
+!
+ip ftp passive
+no ip finger
+ip domain-name [VAR_DOMAIN]
+ip name-server [VAR_PRIMARY_DNS]
+ip name-server [VAR_SECONDARY_DNS]
+ip classless
+no ip http server
+!
+logging trap warnings
+logging facility local3
+logging 10.128.26.47
+access-list 50 permit 66.180.96.13
+access-list 50 permit 69.198.79.11
+access-list 98 permit 192.168.0.0 0.0.0.255
+access-list 98 permit 192.168.253.0 0.0.0.255
+access-list 98 permit 10.100.0.192 0.0.0.63
+access-list 98 permit 192.168.19.0 0.0.0.255
+access-list 98 permit 10.128.11.0 0.0.0.255
+access-list 99 permit 64.238.96.50
+access-list 99 permit 64.238.96.12
+access-list 99 permit 192.168.19.0 0.0.0.255
+access-list 99 permit 192.168.25.0 0.0.0.127
+access-list 99 permit 192.168.0.0 0.0.0.255
+access-list 99 permit 192.168.253.0 0.0.0.255
+access-list 99 permit 10.100.0.192 0.0.0.63
+access-list 99 permit 10.128.11.0 0.0.0.255
+!
+access-list 98 permit 10.128.43.0 0.0.0.255  ! nicgate server access
+access-list 98 permit 10.130.11.0 0.0.0.255  ! nicgate server access
+access-list 99 permit 10.128.43.0 0.0.0.255  ! nicgate server access
+access-list 99 permit 10.130.11.0 0.0.0.255  ! nicgate server access
+!
+no cdp run
+snmp-server community ph4ak RO 98
+no snmp-server enable traps
+radius-server host 10.128.8.17 auth-port 1645 acct-port 1646
+radius-server host 192.168.12.148 auth-port 1645 acct-port 1646
+radius-server retransmit 3
+radius-server key flipper
+!
+dial-peer cor custom
+!
+!
+gatekeeper
+shutdown
+!
+privilege exec level 1 traceroute 
+privilege exec level 7 enable
+privilege exec level 1 ping
+privilege exec level 1 terminal monitor
+privilege exec level 1 show line
+privilege exec level 1 show frame-relay
+privilege exec level 1 show snmp
+privilege exec level 1 show arp
+privilege exec level 1 show version
+privilege exec level 1 show reload
+privilege exec level 1 show debugging
+privilege exec level 1 show controllers
+privilege exec level 1 show users
+privilege exec level 1 show sessions
+privilege exec level 1 show access-lists
+privilege exec level 1 show privilege
+privilege exec level 1 show interfaces
+privilege exec level 1 show startup-config
+privilege exec level 1 clear line
+privilege exec level 1 clear counters
+privilege exec level 1 dir
+privilege exec level 1 show logging
+privilege exec level 1 show sip-ua register status
+privilege exec level 1 show sip-ua register
+privilege exec level 1 show sip-ua
+!
+line con 0
+!
+line aux 0
+modem inout
+no exec
+transport input all
+!
+line vty 0 4
+access-class 99 in
+exec-timeout 30 0
+password uwucmc5
+transport input all
+!
+scheduler allocate 20000 1000
+!
+no banner exec
+no banner login
+!         
+interface [VAR_UPSTREAM_INTERFACE_SECONDARY]
+description Cross-Over Ethernet to [VAR_IADNAME]
+ip address [VAR_SECOND_IAD_SERIAL_IP] [VAR_SECOND_SERIAL_SUBNET]
+duplex full
+speed 100
+no cdp enable
+no shut
+!         
+!         
+ip route 0.0.0.0 0.0.0.0 [VAR_UPSTREAM_INTERFACE_SECONDARY] [VAR_SECOND_SERIAL_UPSTREAM_IP]
+!         
+ip rtcp report interval 30000 
+!         
+ip radius source-interface [VAR_UPSTREAM_INTERFACE_SECONDARY]
+logging trap warnings
+logging facility local2
+logging source-interface [VAR_UPSTREAM_INTERFACE_SECONDARY]
+ntp server 69.198.79.11 source [VAR_UPSTREAM_INTERFACE_SECONDARY] prefer
+ntp server 66.180.96.13 source [VAR_UPSTREAM_INTERFACE_SECONDARY]
+!
+
+

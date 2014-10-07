@@ -1,0 +1,49 @@
+
+###############################################
+#   T1_MULTI_access_module
+###############################################
+
+!
+network-clock-select 1 T1 [VAR_T1_INTERFACE1]
+!
+multilink bundle-name authenticated
+!
+class-map match-any media
+match protocol rtp
+match ip precedence 5 
+class-map match-any signaling
+match protocol sip
+match ip precedence 4
+!
+policy-map SIP_T1_QOS_IAD
+class signaling
+bandwidth percent 4
+class media
+priority percent 90
+! 
+! 
+interface Multilink1
+description [VAR_ACCT_NAME]
+ip address [VAR_IAD_SERIAL_IP] [VAR_SERIAL_SUBNET]
+ip nat outside
+ip virtual-reassembly
+max-reserved-bandwidth 99
+service-policy output SIP_T1_QOS_IAD
+load-interval 30
+no cdp enable
+ppp chap hostname [VAR_IADNAME]
+ppp multilink
+ppp multilink fragment disable
+ppp multilink group 1
+!
+ntp access-group peer 50
+ntp server 66.180.96.13 source [VAR_UPSTREAM_INTERFACE] prefer
+ntp server 69.198.79.11 source [VAR_UPSTREAM_INTERFACE]
+!
+ip route 0.0.0.0 0.0.0.0 [VAR_UPSTREAM_INTERFACE]
+!
+ip radius source-interface [VAR_UPSTREAM_INTERFACE]
+!
+logging source-interface [VAR_UPSTREAM_INTERFACE]
+!
+

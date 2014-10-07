@@ -1,0 +1,27 @@
+<html>
+
+<title>SA Schedule - Upload Data</title>
+<head>
+     <link rel="stylesheet" href="../style/schedule_style.css" type="text/css">
+</head>
+
+<body>
+
+<h2>Service Activations Schedule - Upload</h2>
+
+<h2><font color="red">WARNING: THIS OPERATION WILL OVERWRITE THE CURRENT LIST OF ORDERS IN THE DEVELOPMENT COPY OF THE SCHEDULE!!</font></h2>
+
+Save excel doc as an XML spreadsheet, then upload it here.<br><br>
+
+<form action="sched_submit.php" method="post" enctype="multipart/form-data">
+<label for="file">Schedule Upload - Filename:</label>
+<input type="file" name="file" id="file" />
+<br /><br>
+<input type="submit" name="submit" value="Submit" />
+</form>
+<FORM><INPUT TYPE="BUTTON" VALUE="Cancel" ONCLICK="window.location.href='schedule_settings.php'"></form>
+
+
+
+</body>
+</html> 

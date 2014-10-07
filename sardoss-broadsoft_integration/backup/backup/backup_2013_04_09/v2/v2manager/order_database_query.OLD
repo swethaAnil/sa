@@ -1,0 +1,53 @@
+
+<?php
+
+include 'bin/dbinfo.inc.php';
+
+//CONNECT TO MYSQL
+$connection = @mysql_connect($mysqladd,$mysqluser,$mysqlpass) or die(mysql_error());
+$database = @mysql_select_db($databasename,$connection) or die(mysql_error());
+
+?>
+<head>
+</head>
+<html>
+<br><br>
+<form action="order_database_query.php" method="POST">
+<textarea rows="3" cols="60" name="query">
+<?php if($_POST['query']){ echo $_POST['query']; } ?>
+</textarea>
+<br>
+<input type="submit" value="SUBMIT">
+</form>
+
+<?php
+
+if($_POST['query']){
+	echo "<br><hr><br><br>";
+	$sql_query = $_POST['query'];
+	$sql_result = mysql_query($sql_query,$connection);
+	echo "<table border=1 style=\"border-collapse:collapse;white-space:nowrap;\">";
+	$count=0;
+	while($row = mysql_fetch_array($sql_result, MYSQL_ASSOC)){
+		while($count == 0){
+			$headers = array_keys($row);
+			echo "<tr>";
+			foreach($headers as $header){
+				echo "<th>$header</th>";
+			}
+			echo "</tr>";
+			$count++;
+		}
+		echo "<tr>";
+		foreach($row as $object){
+			echo "<td>$object</td>";
+		}
+		echo "</tr>";
+	}
+	echo "</table><br><br><br>";
+}
+
+
+?>
+
+</html> 

@@ -1,0 +1,27 @@
+
+###############################################
+#   T1_MULTI_TAR_serial_port_module
+###############################################
+
+!
+controller T3 [VAR_10K_T3_INTERFACE]
+no t1 [VAR_10K_T1] channel-group 0
+t1 [VAR_10K_T1] channel-group 0 timeslots 1-24
+no shut
+!
+!
+interface [VAR_T1_SERIAL]
+description [VAR_IADNAME] - [VAR_ACCT_NAME] - [VAR_T1_CID]
+no ip address
+no ip directed-broadcast
+encapsulation ppp
+load-interval 30
+no peer neighbor-route
+ppp chap hostname [VAR_IADNAME]
+ppp multilink
+ppp multilink group [VAR_IAD_NUMBER]
+no snmp trap link-status
+no logging event link-status
+no shut
+!
+

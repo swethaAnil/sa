@@ -1,0 +1,38 @@
+<HTML>
+
+<HEAD>
+<TITLE>WBU for EFM Re-Homes</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1><i>EFM Re-Home: WBU Conversion (T1 -> EFM)</i></H1>
+
+
+<FORM METHOD="POST" ACTION="wbuforefm.php">
+<table>
+<tr><td align="right">SERIAL IP (Network):</td><td><input type="text" name="serialIP"></td></tr>
+<tr><td align="right">SERIAL SUBNET:</td><td><select name="serialsubnet">
+<option value="" selected="selected"></option>
+<option value="30">255.255.255.252</option>
+<option value="31">255.255.255.254</option></td></tr>
+<tr><td align="right">VLAN ID:</td><td><input type="text" name="vlan"></td></tr>
+<tr><td align="right">PUBLIC IP (Network):</td><td><input type="text" name="publicIP"></td></tr>
+<tr><td align="right">PUBLIC SUBNET:</td><td><select name="publicsubnet">
+<option value="" selected="selected"></option>
+<option value="255.255.255.252">255.255.255.252</option>
+<option value="255.255.255.248">255.255.255.248</option>
+<option value="255.255.255.240">255.255.255.240</option>
+<option value="255.255.255.224">255.255.255.224</option>
+<option value="255.255.255.192">255.255.255.192</option></td></tr>
+<tr><td align="right">Next available ip sla #:</td><td><input type="text" name="track"> - Use command <i>"show run | begin ip sla"</i> in the 10K</td></tr>
+<tr><td align="right"><INPUT TYPE="reset" value="Reset"></td><td><INPUT TYPE="submit" NAME="submit" VALUE="Submit"></td></tr>
+</table>
+
+</FORM>
+
+
+
+</BODY>
+</HTML>
+

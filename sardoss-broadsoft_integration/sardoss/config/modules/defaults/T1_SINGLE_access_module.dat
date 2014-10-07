@@ -1,0 +1,63 @@
+
+###############################################
+#   T1_SINGLE_access_module
+###############################################
+
+! 
+network-clock-participate T1 [VAR_T1_INTERFACE1]
+network-clock-select 1 T1 [VAR_T1_INTERFACE1]
+! 
+!
+class-map match-any media
+match protocol rtp
+match ip precedence 5 
+class-map match-any signaling
+match protocol sip
+match ip precedence 4
+!
+!
+policy-map SIP_T1_QOS_IAD
+class signaling
+bandwidth percent 4
+class media
+priority percent 90
+! 
+!
+controller T1 [VAR_T1_INTERFACE1]
+framing esf
+fdl ansi
+linecode b8zs
+channel-group 0 timeslots 1-24 speed 64
+description Upstream T1
+!
+!
+interface Serial[VAR_T1_INTERFACE1]:0
+description [VAR_10K_NAME] - [VAR_T1_SERIAL1] - [VAR_T1_CID1]
+ip address [VAR_IAD_SERIAL_IP] [VAR_SERIAL_SUBNET]
+ip nat outside 
+encapsulation ppp
+load-interval 30
+max-reserved-bandwidth 99
+service-policy output SIP_T1_QOS_IAD
+ip route-cache cef
+no ip mroute-cache
+no cdp enable
+!
+!
+ntp access-group peer 50
+ntp server 66.180.96.13 source [VAR_UPSTREAM_INTERFACE] prefer
+ntp server 69.198.79.11 source [VAR_UPSTREAM_INTERFACE]
+!
+ip route 0.0.0.0 0.0.0.0 [VAR_UPSTREAM_INTERFACE]
+!
+ip radius source-interface [VAR_UPSTREAM_INTERFACE]
+!
+logging source-interface [VAR_UPSTREAM_INTERFACE]
+!
+ntp access-group peer 50
+ntp server 69.198.79.11 source [VAR_UPSTREAM_INTERFACE]
+ntp server 66.180.96.13 source [VAR_UPSTREAM_INTERFACE]
+!
+
+
+

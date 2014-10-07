@@ -1,0 +1,131 @@
+<html>
+
+<title>SA Schedule - ADD/REMOVE A 2.0 ORDER</title>
+<head>
+     <link rel="stylesheet" href="schedule_style.css" type="text/css">
+</head>
+<body>
+
+<h2>Service Activations Schedule - Add a 2.0 Order to the 2.0 order table</h2>
+
+
+<hr>
+<p><strong>Note</strong>: This will add an order to the <strong>Current 2.0 Orders (current_v2_orders)</strong> database and assign it to <em>Overflow</em>.</p>
+
+<FORM METHOD="POST" ACTION="add_v2_order.php">
+
+<table border="1">
+<tr><td align="right">Activation date:</td>
+<td><select name="month">
+	<option value=""></option>
+	<option value="1">Jan</option>
+	<option value="2">Feb</option>
+	<option value="3">Mar</option>
+	<option value="4">Apr</option>
+	<option value="5">May</option>
+	<option value="6">Jun</option>
+	<option value="7">Jul</option>
+	<option value="8">Aug</option>
+	<option value="9">Sep</option>
+	<option value="10">Oct</option>
+	<option value="11">Nov</option>
+	<option value="12">Dec</option>
+</select>
+<select name="day">
+	<option value=""></option>
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+</select>
+<select name="year">
+	<option value="2013">2013</option>
+	<option value="2014">2014</option>
+</select></td></tr>
+<tr><td align="right">Account Number:</td><td><input type="text" name="acct_num"></td></tr>
+<tr><td align="right">Account Name:</td><td><input type="text" name="acct_name"></td></tr>
+<tr><td align="right">Order Number:</td><td><input type="text" name="order_num"></td></tr>
+<tr><td align="right">Order Type:</td><td><input type="text" name="order_type"></td></tr>
+<tr><td align="right">Market:</td><td>
+<select name="market">
+	<option value=""></option>
+	<option value="Atlanta - GA">Atlanta</option>
+	<option value="Boston - MA">Boston</option>
+	<option value="Chicago - IL">Chicago</option>
+	<option value="Dallas - TX">Dallas</option>
+	<option value="Denver - CO">Denver</option>
+	<option value="Detroit - MI">Detroit</option>
+	<option value="Houston - TX">Houston</option>
+	<option value="Los Angeles - CA">Los Angeles</option>
+	<option value="Miami - FL">Miami</option>
+	<option value="Minneapolis - MN">Minneapolis</option>
+	<option value="San Diego - CA">San Diego</option>
+	<option value="San Francisco - CA">San Francisco</option>
+	<option value="Seattle - WA">Seattle</option>
+	<option value="Washington - DC">Washington</option>
+</select></td></tr>
+<tr><td align="right">Package:</td><td><input type="text" name="package"></td></tr>
+<tr><td align="right">Time Slot:</td><td>
+<select name="timeslot">
+	<option value=""></option>
+	<option value="830">8:30 AM</option>
+	<option value="930">9:30 AM</option>
+	<option value="1030">10:30 AM</option>
+	<option value="1130">11:30 AM</option>
+	<option value="1230">12:30 PM</option>
+	<option value="1330">1:30 PM</option>
+	<option value="1430">2:30 PM</option>
+	<option value="1530">3:30 PM</option>
+	<option value="1630">4:30 PM</option>
+	<option value="1730">5:30 PM</option>
+	<option value="1830">6:30 PM</option>
+	<option value="1930">7:30 PM</option>
+</select></td></tr>
+<tr><td align="right">Access Type:</td><td>
+<select name="access">
+	<option value=""></option>
+	<option value="T1">T1</option>
+	<option value="EFM">EFM</option>
+	<option value="Fiber">Fiber</option>
+</select>
+</td></tr>
+</table><br />
+<INPUT TYPE="submit" NAME="submit" VALUE="Submit">
+</form>
+
+<FORM><INPUT TYPE="BUTTON" VALUE="Cancel" ONCLICK="window.location.href='schedule_manager.php'"></form>
+
+
+
+
+
+
+</body>
+</html> 

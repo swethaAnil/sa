@@ -1,0 +1,51 @@
+
+###############################################
+#   FIBER_access_module
+###############################################
+!
+class-map match-all signaling
+match ip precedence 4
+class-map match-all media
+match ip precedence 5
+!
+!
+policy-map EFM_QOS
+class media
+priority percent 90
+class signaling
+bandwidth percent 4
+! 
+! 
+policy-map EFM-[VAR_BANDWIDTH]M
+class class-default
+shape average [VAR_SHAPE_AVERAGE]
+service-policy EFM_QOS
+!
+interface [VAR_FIBER_INTERFACE]
+description [VAR_10K_NAME] - [VAR_10K_INTERFACE] - [VAR_FIBER_CID]
+ip address [VAR_IAD_SERIAL_IP] [VAR_SERIAL_SUBNET]
+ip nat outside
+no ip mroute-cache
+no snmp trap link-status
+no cdp enable
+speed 100
+duplex full
+no logging event link-status
+load-interval 30
+no cdp enable
+service-policy output EFM-[VAR_BANDWIDTH]M
+no shut
+!
+ip route 0.0.0.0 0.0.0.0 [VAR_FIBER_INTERFACE] [VAR_10K_SERIAL_IP]
+!
+ip radius source-interface [VAR_FIBER_INTERFACE]
+!
+logging source-interface [VAR_FIBER_INTERFACE]
+!
+ntp access-group peer 50
+ntp server 69.198.79.11 source [VAR_FIBER_INTERFACE] prefer
+ntp server 66.180.96.13 source [VAR_FIBER_INTERFACE]
+!
+
+
+

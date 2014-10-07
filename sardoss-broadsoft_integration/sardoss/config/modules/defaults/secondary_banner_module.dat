@@ -1,0 +1,22 @@
+
+###############################################
+#   banner_module
+###############################################
+
+banner motd ^
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cbeyond Communications
+
+RESTRICTED NETWORK ACCESS -- ALL CONNECTIONS ARE LOGGED
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNAUTHORIZED ACCESS NOT PERMITTED
+
+*******************************************************
+&nbsp;&nbsp;Account Number: [VAR_ACCT_NUM]
+&nbsp;&nbsp;Device: [VAR_DEVICE]
+
+&nbsp;&nbsp;This is the secondary CPE of a dual-CPE configuration.
+&nbsp;&nbsp;The primary CPE is [VAR_IADNAME].
+
+*******************************************************
+
+^
+!

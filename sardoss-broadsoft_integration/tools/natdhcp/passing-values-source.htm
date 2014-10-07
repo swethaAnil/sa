@@ -1,0 +1,121 @@
+
+<HEAD>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+function getParams() {
+var idx = document.URL.indexOf('?');
+var params = new Array();
+if (idx != -1) {
+var pairs = document.URL.substring(idx+1, document.URL.length).split('&');
+for (var i=0; i<pairs.length; i++) {
+nameVal = pairs[i].split('=');
+params[nameVal[0]] = nameVal[1];
+   }
+}
+return params;
+}
+params = getParams();
+
+
+
+</script>
+
+</HEAD>
+
+
+
+<BODY>
+
+
+
+
+
+<SCRIPT LANGUAGE="JavaScript">
+
+firstname = unescape(params["firstname"]);
+lastname = unescape(params["lastname"]);
+age = unescape(params["age"]);
+Octect=lastname.split(".");
+Range=age.split("-");
+DHCP1=Range[0]-1;
+DHCP2=Range[1]++;
+domain=firstname.slice(8,11);
+
+undo=Range[1];
+
+
+ //alert (domain);
+
+document.write("<strong>Remove NAT &amp; DHCP</strong><br>no ip dhcp excluded-address 10.0.1.1<br>no ip dhcp excluded-address 10.0.1.128 10.0.1.191<br>no ip dhcp pool "+ firstname +"<br>interface FastEthernet0/0<br>no ip address 10.0.1.1 255.255.255.0 secondary <br>no access-list 101<br>no ip nat inside source list 101 interface FastEthernet0/0 overload<br>yes<br>end<br><br>");
+
+
+
+document.write("<strong>Change IP  Scheme with DHCP</strong><br>");
+document.write("no ip dhcp excluded-address 10.0.1.1<br>"); 
+document.write("no ip dhcp excluded-address 10.0.1.128 10.0.1.191<br>");
+if (Range[0]-1 >1)
+{document.write("ip dhcp excluded-address "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +".1 "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +"."+ DHCP1 +"<br>");}
+
+document.write("ip dhcp excluded-address "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +"."+ Range[1]++ +" "+Octect[0] +"."+ Octect[1] +"."+ Octect[2] +".255<br>");
+ document.write("ip dhcp excluded-address "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +"."+ Octect[3] +"<br>");
+ document.write("ip dhcp pool "+ firstname + "<br>");
+  document.write("no network 10.0.1.0 255.255.255.0<br>");
+
+
+  document.write("network "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +".0 255.255.255.0<br>");
+	document.write("default-router "+ lastname +"<br>");
+  document.write("interface FastEthernet0/0<br>");
+  document.write("no ip address 10.0.1.1 255.255.255.0 secondary<br>");
+  document.write("ip address "+ lastname +" 255.255.255.0 secondary<br>");
+  document.write("no access-list 101<br>");
+  document.write("access-list 101 permit ip "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +".0 0.0.0.255 any<br>");
+  document.write("end<br><br>");
+
+
+document.write("<p><strong>Change IP  Scheme No DHCP</strong><br>");
+  document.write("no ip dhcp excluded-address 10.0.1.1<br>");
+  document.write("no ip dhcp excluded-address 10.0.1.128 10.0.1.191<br>");
+  document.write("no ip dhcp pool "+ firstname + "<br>");
+  document.write("interface FastEthernet0/0<br>");
+  document.write("no ip address 10.0.1.1 255.255.255.0 secondary <br>");
+  document.write("ip address "+ lastname +" 255.255.255.0 secondary<br>");
+  document.write("no access-list 101 <br>");
+  document.write("access-list 101 permit ip "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +".0 0.0.0.255 any<br>");
+document.write("end</p><br>");
+
+
+//document.write("<p><strong>Undo Change</strong><br>");
+//if (Range[0]-1 >1)
+//{document.write("no ip dhcp excluded-address "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +".1 "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] //+"."+ DHCP1 +"<br>");}
+
+//document.write("no ip dhcp excluded-address "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +"."+ undo +" "+Octect[0] +"."+ Octect[1] +"."+ //Octect[2] +".255<br>");
+ 
+//document.write("no ip dhcp excluded-address "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +"."+ Octect[3] +"<br>");
+
+//  document.write("ip dhcp excluded-address 10.0.1.128 10.0.1.191<br>");
+//    document.write("ip dhcp excluded-address 10.0.1.1<br>");
+//  document.write(" ip dhcp pool "+ firstname + "<br>");
+
+ // document.write("no network "+ Octect[0] +"."+ Octect[1] +"."+ Octect[2] +".0 255.255.255.0<br>");
+//document.write("network 10.0.1.0  255.255.255.0<br>");
+
+//document.write("default-router 10.0.1.1<br>");
+//document.write("dns-server 66.180.96.12 64.238.96.12<br>");
+//document.write("domain-name "+ firstname +"."+ domain.toLowerCase()+"0.cbeyond.net<br>");
+//  document.write("interface FastEthernet0/0<br>");
+ //  document.write("no ip address "+ lastname +" 255.255.255.0 secondary<br>");
+//  document.write("ip address 10.0.1.1 255.255.255.0 secondary<br>");
+//   document.write("no access-list 101<br>");
+//document.write("access-list 101 permit ip 10.0.1.0 0.0.0.255 any<br>");
+//  document.write("end</p>");
+//document.write("</p>");
+
+
+
+
+  
+  
+  </script>
+
+

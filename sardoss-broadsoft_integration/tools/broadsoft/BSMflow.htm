@@ -1,0 +1,40 @@
+<html>
+
+<title>Some Tool</title>
+
+
+
+<body>
+
+<br><br>
+<center>
+<h4>Create Broadsoft Enterprise/Group</h4>
+
+<p><i>(Calls the 'provision...Customer' function)</i></p>
+
+<form action="BSMflow.php" method="POST">
+
+<table><tr><td>
+
+<tr><td align="right">Type of Service:</td><td><select name="svc_type">
+<option value=""></option>
+<option value="Analog">Analog</option>
+<option value="EnhancedDigital">Enhanced Digital</option>
+<option value="VoiceOnlyPRI">Voice-only PRI</option>
+<option value="SipConnect">SIPConnect</option>
+</select><br /></td></tr>
+
+<tr><td align="right">Account Number:</td><td><input type="text" name="acct_num"></td></tr>
+<tr><td align="right">Account Name:</td><td><input type="text" name="acct_name"></td></tr>
+<tr><td align="right">Market:</td><td><input type="text" name="market"> - ex. Houston - TX</td></tr>
+<tr><td align="right">BWNS Profile:</td><td><input type="text" name="bwns_profile"> - ex. ATL-10D</td></tr>
+<tr><td align="right">Call Capacity:</td><td><input type="text" name="capacity"> - ED, VoPRI, SIP only</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td align="right"><input type="submit" name="Submit" value="SUBMIT"></td><td><input type="reset" name="reset" value="RESET"></td></tr>
+</table>
+</form>
+</center>
+</body>
+
+</html>
+

@@ -1,0 +1,18 @@
+
+###############################################
+#   SECOND_DEVICE_crossover_module
+###############################################
+
+!
+interface [VAR_CROSSOVER_INTERFACE]
+description Cross-Over Ethernet to [VAR_IADNAME_SECONDARY]
+ip address [VAR_SECOND_SERIAL_UPSTREAM_IP] [VAR_SECOND_SERIAL_SUBNET]
+ip nat inside
+ip virtual-reassembly
+no logging event link-status
+load-interval 30
+duplex full
+speed 100
+no snmp trap link-status
+no cdp enable
+!

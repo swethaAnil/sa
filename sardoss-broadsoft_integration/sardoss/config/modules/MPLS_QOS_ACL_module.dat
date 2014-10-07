@@ -1,0 +1,121 @@
+
+###############################################
+#   MPLS_QOS_ACL_module
+###############################################
+
+!
+class-map match-any GOLD
+match ip precedence 3
+match mpls experimental topmost 3
+match ip precedence 6
+match mpls experimental topmost 6
+class-map match-any BRONZE
+match ip precedence 1
+match mpls experimental topmost 1
+class-map match-any SILVER
+match ip precedence 2
+match mpls experimental topmost 2
+class-map match-all MGCP
+match ip precedence 4
+match mpls experimental topmost 4
+class-map match-any MARK_BRONZE
+match ip precedence 1
+match access-group name BRONZE
+class-map match-any MARK_GOLD
+match ip precedence 3
+match ip precedence 4
+match ip precedence 5
+match ip precedence 6
+match ip precedence 7
+match protocol rtp
+match protocol sip
+match access-group name GOLD
+class-map match-all MARK_CBEY_SIG
+match access-group name CBEY_SIG
+match protocol sip
+class-map match-any RTP
+match mpls experimental topmost 5
+match ip precedence 5
+match ip precedence 4
+match mpls experimental topmost 4
+class-map match-any MARK_SILVER
+match ip precedence 2
+match access-group name SILVER
+class-map match-all MARK_CBEY_RTP
+match access-group name CBEY_RTP
+match protocol rtp
+!
+!
+policy-map LAN
+class MARK_CBEY_RTP
+set precedence 5
+class MARK_CBEY_SIG
+set precedence 4
+class MARK_GOLD
+set precedence 3
+class MARK_SILVER
+set precedence 2
+class MARK_BRONZE
+set precedence 1
+policy-map VPN
+class GOLD
+bandwidth percent 60
+class SILVER
+bandwidth percent 30
+class BRONZE
+bandwidth percent 9
+policy-map T1_QOS_VPN
+class RTP
+priority percent 90
+class MGCP
+bandwidth percent 4
+class SIP
+bandwidth percent 4
+class class-default
+shape average percent 99
+service-policy VPN
+!
+!
+!
+ip access-list extended GOLD
+ip access-list extended SILVER
+ip access-list extended BRONZE
+ip access-list extended CBEY_RTP
+permit ip any 192.168.0.0 0.0.128.255
+permit ip any 69.198.0.0 0.0.128.255
+permit ip any 69.198.130.0 0.0.0.255
+permit ip any 69.198.137.0 0.0.0.255
+permit ip any 69.198.151.0 0.0.0.255
+permit ip any 69.198.159.0 0.0.0.255
+permit ip any 69.198.225.0 0.0.0.255
+permit ip any 72.16.223.0 0.0.0.255
+permit ip any 74.7.100.0 0.0.0.255
+permit ip any 74.7.244.0 0.0.0.255
+permit ip any 173.200.255.0 0.0.0.255
+permit ip any 98.143.175.0 0.0.0.255
+permit ip any 98.143.160.0 0.0.15.255
+permit ip any 216.238.192.0 0.0.15.255
+ip access-list extended CBEY_SIG
+permit ip any 192.168.0.0 0.0.128.255
+permit ip any 192.168.248.0 0.0.0.255
+permit ip any 192.168.250.0 0.0.0.255
+permit ip any 69.198.0.0 0.0.128.255
+permit ip any 69.198.130.0 0.0.0.255
+permit ip any 69.198.137.0 0.0.0.255
+permit ip any 69.198.151.0 0.0.0.255
+permit ip any 69.198.159.0 0.0.0.255
+permit ip any 69.198.225.0 0.0.0.255
+permit ip any 72.16.223.0 0.0.0.255
+permit ip any 74.7.100.0 0.0.0.255
+permit ip any 74.7.244.0 0.0.0.255
+permit ip any 173.200.255.0 0.0.0.255
+permit ip any 98.143.160.0 0.0.15.255
+permit ip any 216.238.192.0 0.0.15.255
+!
+!
+interface GigabitEthernet0/0
+service-policy input LAN
+!
+interface GigabitEthernet0/1
+service-policy input LAN
+!

@@ -1,0 +1,33 @@
+
+###############################################
+#   T1_SINGLE_TAR_module
+###############################################
+
+!
+controller T3 [VAR_10K_T3_INTERFACE]
+no t1 [VAR_10K_T1] channel-group 0
+t1 [VAR_10K_T1] channel-group 0 timeslots 1-24
+no shut
+!
+!
+interface [VAR_T1_SERIAL]
+description [VAR_IADNAME] - [VAR_ACCT_NAME] - [VAR_T1_CID]
+ip address [VAR_10K_SERIAL_IP] [VAR_SERIAL_SUBNET]
+encapsulation ppp
+no ip directed-broadcast
+load-interval 30
+no peer neighbor-route
+service-policy output T1_QOS
+peer default ip address [VAR_IAD_SERIAL_IP]
+no snmp trap link-status
+no logging event link-status
+no shut
+!
+!
+ip route [VAR_IAD_PUBLIC_NETWORK] [VAR_PUBLIC_SUBNET_MASK] [VAR_T1_SERIAL]
+!
+
+
+
+
+

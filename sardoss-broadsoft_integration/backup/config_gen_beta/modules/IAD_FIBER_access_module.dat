@@ -1,0 +1,72 @@
+
+###############################################
+#   IAD_FIBER_access_module
+###############################################
+!
+class-map match-all signaling
+match ip precedence 4
+class-map match-all media
+match ip precedence 5
+!
+!
+policy-map T1_QOS_IAD
+class media
+priority percent 90
+class signaling
+bandwidth percent 4
+! 
+! 
+policy-map EFM-[VAR_BANDWIDTH]M
+class class-default
+shape average [VAR_SHAPE_AVERAGE]
+service-policy T1_QOS_IAD
+!
+interface FastEthernet0/1
+ description FIBER CONNECTION
+ ip nat inside
+ no ip mroute-cache
+ no snmp trap link-status
+ no cdp enable
+ speed auto
+ duplex auto
+ no logging event link-status
+ load-interval 30
+ no cdp enable
+ no shut
+!
+interface FastEthernet0/1.[VAR_VLAN_ID]
+description VLAN [VAR_VLAN_ID] - [VAR_10K_NAME] - [VAR_CIRCUIT_ID]
+encapsulation dot1q [VAR_VLAN_ID] 
+ip address [VAR_IAD_SERIAL_IP]
+ip nat outside
+service-policy output EFM-[VAR_BANDWIDTH]M
+!
+ip route 0.0.0.0 0.0.0.0 FastEthernet0/1.[VAR_VLAN_ID] [VAR_10K_SERIAL_IP]
+!
+ip radius source-interface FastEthernet0/1.[VAR_VLAN_ID]
+!
+logging source-interface FastEthernet0/1.[VAR_VLAN_ID]
+!
+ntp access-group peer 50
+ntp server 69.198.79.11 source FastEthernet0/1.[VAR_VLAN_ID] prefer
+ntp server 66.180.96.13 source FastEthernet0/1.[VAR_VLAN_ID]
+!11:53 AM 3/21/2012
+banner motd ^C
+               Cbeyond Communications
+
+RESTRICTED NETWORK ACCESS -- ALL CONNECTIONS ARE LOGGED
+         UNAUTHORIZED ACCESS NOT PERMITTED
+
+
+*******************************************************
+*
+*                    FIBER CUSTOMER                   *
+*                                                     *
+*     Upstream connection via FastEthernet0/1.[VAR_VLAN_ID]    *
+*                                                     *
+*******************************************************
+^C
+!
+
+
+

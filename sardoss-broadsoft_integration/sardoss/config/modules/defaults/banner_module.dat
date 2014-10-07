@@ -1,0 +1,22 @@
+
+###############################################
+#   banner_module
+###############################################
+
+banner motd ^
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cbeyond Communications
+
+RESTRICTED NETWORK ACCESS -- ALL CONNECTIONS ARE LOGGED
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNAUTHORIZED ACCESS NOT PERMITTED
+
+*******************************************************
+&nbsp;&nbsp;Account Number: [VAR_ACCT_NUM]
+&nbsp;&nbsp;Device: [VAR_DEVICE]
+&nbsp;&nbsp;Access: [VAR_ACCESS]
+&nbsp;&nbsp;Access Interface: [VAR_UPSTREAM_INTERFACE]
+&nbsp;&nbsp;Customer Data Interface: [VAR_DATA_INTERFACE]
+&nbsp;&nbsp;Voice Type: [VAR_VOICE_TYPE]
+&nbsp;&nbsp;Primary Call Agent: [VAR_PCA]
+*******************************************************
+^
+!

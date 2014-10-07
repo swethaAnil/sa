@@ -1,0 +1,48 @@
+<?php
+
+include 'bin/dbinfo.inc.php';
+
+//CONNECT TO MYSQL
+$connection = @mysql_connect($mysqladd,$mysqluser,$mysqlpass) or die(mysql_error());
+$database = @mysql_select_db($databasename,$connection) or die(mysql_error());
+	
+$get_dev_orders_sql = "SELECT * FROM $databasename.$ordersDevTable";
+$get_orders_result = mysql_query($get_dev_orders_sql,$connection) or die(mysql_error());
+
+$count = 0;
+while($row = mysql_fetch_array($get_orders_result,MYSQL_ASSOC)){
+	
+	if($count == 0){
+		$delete_orders_sql = "DELETE FROM $databasename.$ordertable WHERE activation_date = '$row[activation_date]'";
+		mysql_query($delete_orders_sql, $connection) or die(mysql_error());
+		$count = 1;
+	}
+	$copy_order_sql = "INSERT INTO $databasename.$ordertable 
+						VALUES (NULL,'$row[upload_date]','$row[activation_date]','$row[order_num]','$row[acct_num]','$row[acct_name]','$row[order_type]','$row[market]','$row[package]','$row[timeslot]','$row[iad_type]','Pending','$row[skill]','$row[tech_id]','$row[access_type]','$row[trouble]','unspecified','unspecified',0)";
+	$sql_result = mysql_query($copy_order_sql, $connection) or die(mysql_error());
+	
+}
+
+	
+?>
+
+<html>
+<head>
+<meta http-equiv="Refresh" content="3;url=schedule_manager.php" />
+</head>
+<head>
+     <link rel="stylesheet" href="schedule_style.css" type="text/css">
+</head>
+<title>SA Schedule - Publish Schedule</title>
+<body>
+<br><br><br>
+
+<?php
+
+if($sql_result == '1'){
+	echo "Schedule published to Current Schedule.  Re-directing to Schedule Manager page in 3 seconds.";
+}
+?>
+</body>
+</html> 
+

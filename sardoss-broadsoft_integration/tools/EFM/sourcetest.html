@@ -1,0 +1,30 @@
+<html>
+
+<HEAD>
+<TITLE>Import Source Test Input</TITLE>
+</HEAD>
+
+<BODY>
+
+<H3>EFM Cutover Expedite Tool</H3>
+
+<FORM METHOD="POST" ACTION="sourcetest.php">
+
+<b>Account Number:</b> <input type="text" name="acctnum"><br>
+<b>PID Number:</b> <input type="text" name="pid"><br><br>
+----->> <b>VPN?</b><input type="checkbox" name="vpn"><br><br>
+----->> <b>Private IP:</b><br>
+---------->><input type="radio" name="ip" value="none"> NONE<br>
+---------->><input type="radio" name="ip" value="default"> 10.0.1.1<br>
+---------->><input type="radio" name="ip" value="other"> Other: <input type="text" name="alt_private"><br><br>
+
+----->> <b>FTP ON?:</b><input type="checkbox" name="ftp"><br><br>
+
+<input type="submit" name="submit" value="Submit">
+
+
+</form>
+
+
+</BODY>
+</HTML>

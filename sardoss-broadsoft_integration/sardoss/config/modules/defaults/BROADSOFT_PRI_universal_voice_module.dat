@@ -1,0 +1,72 @@
+
+###############################################
+#   BROADSOFT_PRI_universal_voice_module
+###############################################
+! 
+voice service voip 
+fax protocol pass-through g711ulaw
+modem passthrough nse codec g711ulaw
+sip      
+bind control source-interface [VAR_UPSTREAM_INTERFACE]
+bind media source-interface [VAR_UPSTREAM_INTERFACE]
+asserted-id pai
+localhost dns:[VAR_BWAS_FQDN]
+!
+!
+voice class codec 711
+codec preference 1 g711ulaw
+!
+voice translation-rule 1
+ rule 1 /\(.*\)/ /011\1/ type international unknown plan isdn unknown
+!
+!
+voice translation-profile CBEY_INTL_PREFIX
+ translate called 1
+!
+isdn switch-type primary-ni
+!
+!
+dial-peer voice 500 voip
+translation-profile outgoing CBEY_INTL_PREFIX
+huntstop    
+preference 1
+service session
+destination-pattern .T
+progress_ind setup enable 3
+voice-class codec 711
+session protocol sipv2
+session target sip-server  
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+dtmf-relay rtp-nte
+no vad    
+!
+dial-peer voice 588 voip
+preference 2
+service session
+voice-class codec 711
+session protocol sipv2
+session target sip-server
+incoming called-number .%
+dtmf-relay rtp-nte
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+dtmf-relay rtp-nte
+no vad
+!
+sip-ua 
+authentication username [VAR_ACCT_NUM] password [VAR_IADNAME]
+calling-info pstn-to-sip asserted-id number set [VAR_BTN]
+no remote-party-id
+set pstn-cause 47 sip-status 486
+retry invite 2
+retry response 3
+retry bye 3
+retry prack 6
+timers expires 300000 
+mwi-server ipv4:255.255.255.255 expires 3600 port 5060 transport udp unsolicited
+registrar dns:[VAR_BWAS_FQDN] expires 300   
+sip-server dns:[VAR_BWAS_FQDN]
+!
+

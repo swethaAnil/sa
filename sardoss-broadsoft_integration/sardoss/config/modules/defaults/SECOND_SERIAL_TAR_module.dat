@@ -1,0 +1,8 @@
+
+###############################################
+#   SECOND_SERIAL_TAR_module
+###############################################
+
+!
+ip route [VAR_SECOND_SERIAL_NETWORK_ADDRESS] [VAR_SECOND_SERIAL_SUBNET] [VAR_IAD_SERIAL_IP]
+!

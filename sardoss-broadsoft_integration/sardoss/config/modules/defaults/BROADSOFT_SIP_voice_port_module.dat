@@ -1,0 +1,30 @@
+
+###############################################
+#   BROADSOFT_SIP_voice_port_module
+###############################################
+
+!
+voice-port [VAR_PORT_ADDRESS][VAR_PORT_NUM]
+supervisory disconnect lcfo
+no battery-reversal
+mwi
+no comfort-noise 
+timeouts power-denial 900
+timing hookflash-in 750 150
+description [VAR_TEL_NUM]
+caller-id enable
+!
+dial-peer voice 11[VAR_DIAL_PEER_NUM_SECONDARY][VAR_DIAL_PEER_NUM] voip
+destination-pattern [VAR_TEL_NUM]
+voice-class codec 711
+session protocol sipv2
+session target sip-server
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad 
+!
+dial-peer voice [VAR_DIAL_PEER_NUM] pots
+destination-pattern [VAR_TEL_NUM]
+port [VAR_PORT_ADDRESS][VAR_PORT_NUM]
+!

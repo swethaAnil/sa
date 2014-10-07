@@ -1,0 +1,80 @@
+<HTML>
+
+<HEAD>
+<TITLE>EFM/Fiber Rate-Limit Changer</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1><i>EFM/Fiber Rate-Limit Changer</i></H1>
+
+<table>
+<FORM METHOD="POST" ACTION="ratechange.php">
+
+<tr>
+<td align="right"><b>Radius Username:</b></td><td><input type="text" name="user" size=15> <b>Password:</b> <input type="password" name="pass" size=15></td>
+</tr>
+<tr>
+<td align="right"><b>EFM SWITCH:</b></td><td><input type="text" name="efmswitch" size=15 maxlength=13> - ex. "EFM00NRC.ATL0"</td>
+</tr>
+<tr>
+<td align="right"><b>HSL #:</b></td><td><input type="text" name="HSL" size=4 maxlength=4></td>
+</tr>
+<tr>
+<td align="right"><b>VLAN ID:</b></td><td><input type="text" name="VLAN" size=4 maxlength=4></td>
+</tr>
+<tr>
+<td align="right"><b>Current Rate Limit: </b></td><td><select name="curr_rate">
+	<option></option>
+	<option Value="2">2.0</option>
+	<option Value="4">4.0</option>
+	<option Value="6">6.0</option>
+	<option Value="8">8.0</option>
+	<option Value="10">10.0</option>
+	<option Value="15">15.0</option>
+	<option Value="20">20.0</option>
+	<option Value="25">25.0</option>
+	<option Value="30">30.0</option>
+	<option Value="50">50.0</option>
+	<option Value="100">100.0</option>
+	<option Value="unl">Unlimited</option>
+</select></td>
+</tr>
+<tr>
+<td align="right"><b>New Rate Limit: </b></td><td><select name="new_rate">
+	<option></option>
+	<option Value="2">2.0</option>
+	<option Value="4">4.0</option>
+	<option Value="6">6.0</option>
+	<option Value="8">8.0</option>
+	<option Value="10">10.0</option>
+	<option Value="15">15.0</option>
+	<option Value="20">20.0</option>
+	<option Value="25">25.0</option>
+	<option Value="30">30.0</option>
+	<option Value="50">50.0</option>
+	<option Value="100">100.0</option>
+	<option Value="unl">Unlimited</option>
+</select></td>
+</tr>
+<tr>
+<td align="right"><b>SIP?</b></TD><TD><INPUT TYPE=CHECKBOX NAME="sip"></td>
+</tr
+
+<tr><br></tr>
+
+<tr>
+<td align="right"><INPUT TYPE="submit" NAME="submit" VALUE="Submit"></td>
+<td align="left"><INPUT TYPE="reset" value="Reset"></td>
+</tr>
+
+</table>
+
+
+</FORM>
+
+
+
+</BODY>
+</HTML>
+

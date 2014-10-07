@@ -1,0 +1,214 @@
+<HTML>
+
+<HEAD>
+<TITLE>EFM Help</TITLE>
+
+<script type="text/javascript"></script>
+
+</HEAD>
+
+<BODY>
+<br>
+
+<a name="1">
+<ul>
+<li><hr><H3>TAR Pre-configuration</H3><hr>
+As a first step in activating EFM service, you should configure the TAR subinterface
+so that no one else can take it during the activation.  Do a last minute check in the TAR to
+make sure the interface is clear before you configure anything.<br><br>
+
+<ol>
+<li>Log into the TAR and enter 'enable' mode.</li>
+<li>Enter "<i><b>show run | begin Port-channel1</b></i>".</li>
+<li>Scroll through the list of EFM (Port-channel1) subinterfaces and make sure your interface has not been configured already.</li>
+<li>If interface is clear, configure interface using script provided.</li>
+<li>Double-check the interface after configuration to make sure everything looks OK and nothing failed.</li>
+</ol>
+<br>
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="2">
+<li><hr><H3>Actelis Configuration</H3><hr>
+Which Actelis unit do you need help with?<br>
+<a href="Actelishelp.htm#ML2300">ML2300</a><br>
+<a href="Actelishelp.htm#ML42">ML42</a><br>
+<a href="Actelishelp.htm#ML62x">ML622, ML624, or ML628</a>
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<a name="3">
+<li><hr><H3>Verify IAD Connectivity</H3><hr>
+Prior to changing the config on either TAR or the IAD, a number of checks should 
+be done to verify that customers’ IAD is functioning correctly. This will ensure 
+that any configuration change could be the only reason a customers IAD is not 
+performing as expected.<br><br>
+
+
+<ol>
+<li>Execute "show mgcp" in the IAD.</li>
+<li>Make sure the MGCP Admin State and Oper State are "ACTIVE".</li>
+<li>Trace to the MGCP call-agent.<br><br>
+<img src="Images/IAD_verification_mgcp.png" /></li>
+<li>Trace to the internet.<br><br>
+<img src="Images/IAD_verification_internet.png" /></li>
+</ol>
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+<a name="4">
+<li><hr><H3>TAR Serial IP Switchover</H3><hr>
+To make the customer's transition to EFM as smooth and quick as possible, use 
+the script provided to quickly change the IP on the current TAR interface to the dummy IP 
+and make the old IP the secondary IP on the interface. 
+If there are no active calls, this should not cause a noticeable service interruption 
+and should allow you to verify you have a good connection to the IAD on the new IP. 
+When that's established, you'll have a backup connection into the IAD so you can 
+configure the IAD subinterfaces without losing connection.<br><br>
+
+<font color="red"><b>IMPORTANT NOTE:</b><br>Make sure you <b><u>highlight the entire config</u></b> when copying to your clipboard.  If the script is copied 
+line-by-line, it will cause a service interruption and you may lose connection to the IAD.</font>
+<img src="Images/TAR_serial_switchover.png" />
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<a name="5">
+<li><hr><H3>IAD Serial IP Switchover</H3><hr>
+This is the same as the TAR switchover, just in the IAD this time.  One additional change
+ removes restrictions on incoming virtual terminal connections to allow telnet access
+ from the TAR.<br><br>
+
+<font color="red"><b>IMPORTANT NOTE:</b><br>Make sure you <b><u>highlight the entire config</u></b> when copying to your clipboard.  If the script is copied 
+line-by-line, it will cause a service interruption and you may lose connection to the IAD.</font>
+<img src="Images/IAD_serial_switchover.png" />
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="6">
+<li><hr><H3>Telnet to IAD from TAR</H3><hr>
+Telnet directly to the IAD from the TAR.  Use this connection to complete 
+the rest of the IAD configuration.<br><br>
+<font color="red"><b>IMPORTANT NOTE:</b><br>Be VERY careful and know which device you are working
+in at all times.  Telnetting to the IAD from the TAR can create some confusion. ALWAYS look at the
+hostname of the device before you configure anything or execute a command.</font><br><br>
+
+<img src="Images/Telnet_to_IAD_from_TAR.png" />
+
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="7">
+<li><hr><H3>Connect EFM Gear to IAD</H3><hr>
+This step will take down the customer's voice and data connections until configuration 
+is complete.  Have the on-site tech verify the customer is ready to go down and have the tech hook up 
+the CPE gear to the IAD and to the customer's network.<br><br>
+
+<font color="red"><b>IMPORTANT NOTE:</b><br>Make sure the tech does not take down the T1 connection
+to the IAD at this point.  You need this connection to complete the configuration.</font><br><br>
+
+<ol>
+<lh><u><b>Procedure for connecting EFM box to IAD</b></u></lh>
+<li>Disconnect customer's network from FastEthernet0/0 port on IAD.</li>
+<li>Connect customer's network to Ethernet2 port on EFM box.</li>
+<li>Connect Ethernet1 port on EFM box to FastEthernet0/0 on IAD (crossover cable).</li>
+</ol>
+
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="8">
+<li><hr><H3>Configure IAD Subinterfaces</H3><hr>
+Use the script to configure the IAD subinterfaces.  The script 
+defines the interface for the upstream connection to the Cbeyond network.  It moves 
+the serial IP from the serial (or multilink) interface to the new subinterface. 
+It also defines the interface for the customer's network and 
+repoints the NAT for the customer's private IPs.
+<img src="Images/IAD_subinterface_config.png" />
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="9">
+<li><hr><H3>Move TAR Serial IP</H3><hr>
+Use the script in the TAR to move the customer's serial IP from the old 
+interface to the new EFM subinterface and to repoint the IP route 
+for the customer's public IP.
+<img src="Images/TAR_subinterface_change.png" />
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="10">
+<li><hr><H3>Change IAD Default Route</H3><hr>
+Use the script in the IAD to repoint the default route to the EFM connection.  Notice this IP route 
+also contains a next-hop address.  This is necessary for a FastEthernet connection and CANNOT
+be omitted from the config.
+<img src="Images/IAD_route_change.png" />
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="11">
+<li><hr><H3>Verify Services</H3><hr>
+All services should be back up and running now.  Verify connectivity to IAD 
+and check connections to the call agent and internet.  Have the on-site technician 
+check all of the phone lines and run a speed test to verify new upload & download times.<br><br>
+
+<ol>
+<li>Trace to the internet from the IAD to confirm internet connectivity.</li><br>
+<li>Have the tech use 'speakeasy.net' or 'speedtest.net' to test the data connection speed. 
+This can usually be done from one of the customer's PCs, but if the speed is slower than expected, 
+the speed will need to be tested with the tech's laptop plugged directly into the Ethernet2 port 
+on the EFM box.<br><br>
+<ul><lh><b><u>Expected data speeds</b></u></lh>
+<li>BVI = between 1.5 and 2.0 MB/sec</li>
+<li>BVII = between 3.0 and 4.0 MB/sec</li>
+<li>BVI = between 4.5 and 6.0 MB/sec</li>
+</ul>
+<br>
+<li>Status terminations or trunks in the call agent to verify voice services.</li><br>
+<li>Make test calls to and from the customer's phones.</li>
+</ol>
+
+
+</li>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a name="12">
+<li><hr><H3>Final Clean-up</H3><hr>
+This step will be subject to the particular configuration in each IAD. 
+If you're unsure what to do, PLEASE seek assistance before making any changes.<br><br>
+</li>
+</ul>
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+</BODY>
+</HTML>
+
+

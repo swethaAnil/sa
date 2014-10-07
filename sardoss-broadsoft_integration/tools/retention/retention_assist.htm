@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>12th Hour Retention - IAD/BTS Assistant</title>
+
+<style>
+
+h1,h2,h3,h4,h5{
+	color:navy;
+	font-family:"Arial";
+}
+
+body{
+	font-family:"Arial";
+}
+</style>
+
+</head>
+
+<body>
+
+<h3>12th Hour Retention - IAD/BTS Assistant for Analog Accounts</h3>
+<p><em>Provides scripts to re-point DN2s to subs (based on DN1s), change sub-profiles, and remove suspend ACL from IAD.</em></p>
+
+<form method="post" action="retention_assist.php">
+
+
+<strong>Show all subs in the BTS (ex. show sub id=IAD1234ATL%) and paste output below.</strong><br />
+<textarea rows="20" cols="60" name="bts_data"></textarea>
+<p>Enter sub-profile ID: <input type="text" name="sub_profile"></p>
+
+<input type="submit" value="Submit" />
+
+</body>
+
+</html>

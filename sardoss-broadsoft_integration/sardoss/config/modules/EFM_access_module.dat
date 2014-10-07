@@ -1,0 +1,57 @@
+
+###############################################
+#   EFM_access_module
+###############################################
+
+!
+class-map match-all signaling
+match ip precedence 4
+class-map match-all media
+match ip precedence 5
+!
+!
+policy-map EFM_QOS
+class media
+priority percent 90
+class signaling
+bandwidth percent 4
+! 
+! 
+policy-map EFM-[VAR_BANDWIDTH]M
+class class-default
+shape average [VAR_SHAPE_AVERAGE]
+service-policy EFM_QOS
+!
+interface [VAR_EFM_INTERFACE]
+ description [VAR_ACCT_NAME] (Account: [VAR_ACCT_NUM])
+ ip nat inside
+ no ip mroute-cache
+ no snmp trap link-status
+ no cdp enable
+ speed auto
+ duplex auto
+ no logging event link-status
+ load-interval 30
+ no cdp enable
+ no shut
+!
+interface [VAR_EFM_INTERFACE].[VAR_EFM_VLAN]
+description VLAN [VAR_EFM_VLAN] - HSL-[VAR_EFM_HSL] - [VAR_EFM_SWITCH]
+encapsulation dot1q [VAR_EFM_VLAN]
+ip address [VAR_IAD_SERIAL_IP] [VAR_SERIAL_SUBNET]
+ip nat outside
+service-policy output EFM-[VAR_BANDWIDTH]M
+!
+ip route 0.0.0.0 0.0.0.0 [VAR_EFM_INTERFACE].[VAR_EFM_VLAN] [VAR_10K_SERIAL_IP]
+!
+ip radius source-interface [VAR_EFM_INTERFACE].[VAR_EFM_VLAN]
+!
+logging source-interface [VAR_EFM_INTERFACE].[VAR_EFM_VLAN]
+!
+ntp access-group peer 50
+ntp server 69.198.79.11 source [VAR_EFM_INTERFACE].[VAR_EFM_VLAN] prefer
+ntp server 66.180.96.13 source [VAR_EFM_INTERFACE].[VAR_EFM_VLAN]
+!
+
+
+

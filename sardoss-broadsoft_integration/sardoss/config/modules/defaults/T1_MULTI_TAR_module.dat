@@ -1,0 +1,26 @@
+
+###############################################
+#   T1_MULTI_TAR_module
+###############################################
+
+!
+int Multilink[VAR_IAD_NUMBER]
+description [VAR_ACCT_NAME]
+ip address [VAR_10K_SERIAL_IP] [VAR_SERIAL_SUBNET]
+no ip directed-broadcast
+load-interval 30
+no peer neighbor-route
+service-policy output T1_QOS
+no ip mroute-cache
+ppp chap hostname [VAR_IADNAME]
+ppp multilink
+ppp multilink interleave
+ppp multilink fragment delay 20
+multilink-group [VAR_IAD_NUMBER]
+peer default ip address [VAR_IAD_SERIAL_IP]
+no snmp trap link-status
+no logging event link-status
+no shut
+!
+ip route [VAR_IAD_PUBLIC_NETWORK] [VAR_PUBLIC_SUBNET_MASK] Multilink[VAR_IAD_NUMBER]
+!

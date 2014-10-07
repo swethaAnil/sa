@@ -1,0 +1,8 @@
+[VAR_IADNAME]::$iadname
+[VAR_TIMEZONE]::$timezone
+[VAR_DAYLIGHT_SAVINGS_TIME]::$daylight_savings_time
+[VAR_DOMAIN]::$domain
+[VAR_PRIMARY_DNS]::$primary_dns
+[VAR_SECONDARY_DNS]::$secondary_dns
+[VAR_UPSTREAM_INTERFACE]::$upstream_interface
+[VAR_ACCT_NUM]::$acct_num

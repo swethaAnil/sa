@@ -1,0 +1,39 @@
+
+
+
+!------- DARK_FIBER_eservice_cli_module ----------
+
+
+!
+virtual-switch 1
+!
+configure terminal
+!
+uni gigabitEthernet [VAR_BAS_PORT]
+eservice [VAR_SITE_NAME]_prod
+!
+end
+!
+!
+virtual-switch 1
+!
+configure terminal
+!
+c-vlan-map switchport gigabitEthernet [VAR_BAS_PORT]
+map c-vlan [VAR_FIBER_VLAN] s-vlan [VAR_FIBER_SITE_VLAN]
+!
+end
+!
+!
+virtual-switch 1
+!
+configure terminal
+!
+uni gigabitEthernet [VAR_BAS_PORT]
+spanning-tree 0
+port-state disable
+!
+end
+!
+
+

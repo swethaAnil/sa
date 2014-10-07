@@ -1,0 +1,27 @@
+
+###############################################
+#   T1_MULTI_serial_port_module
+###############################################
+
+!
+controller T1 [VAR_T1_INTERFACE]
+framing esf
+fdl ansi
+linecode b8zs
+channel-group 0 timeslots 1-24 speed 64
+description Upstream T1
+!
+!
+interface Serial[VAR_T1_INTERFACE]:0 
+description [VAR_T1_CID] - [VAR_10K_NAME] - [VAR_T1_SERIAL]
+max-reserved-bandwidth 99 
+encapsulation ppp
+load-interval 30
+no fair-queue
+ppp chap hostname [VAR_IADNAME]
+ppp multilink
+ppp multilink group 1
+no shut
+!
+!
+

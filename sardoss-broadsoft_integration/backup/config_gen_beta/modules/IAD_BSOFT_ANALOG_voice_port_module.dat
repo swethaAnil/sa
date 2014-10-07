@@ -1,0 +1,32 @@
+
+###############################################
+#   IAD_BSOFT_ANALOG_voice_port_module
+###############################################
+!
+voice-port 2/[VAR_PORT_NUM]
+no supervisory disconnect lcfo
+no battery-reversal
+mwi
+no comfort-noise
+timeouts interdigit 5
+timeouts power-denial 900
+timing hookflash-in 750 150
+description [VAR_TEL_NUM]
+caller-id enable
+!
+dial-peer voice [VAR_DIAL_PEER_VOIP] voip
+destination-pattern [VAR_TEL_NUM]
+session protocol sipv2
+session target sip-server
+session transport udp
+voice-class codec 711  
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad
+!
+dial-peer voice [VAR_DIAL_PEER_POTS] pots
+destination-pattern [VAR_TEL_NUM]
+port 2/[VAR_PORT_NUM]
+!
+
+

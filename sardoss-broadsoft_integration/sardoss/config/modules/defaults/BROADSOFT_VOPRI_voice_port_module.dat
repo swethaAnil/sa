@@ -1,0 +1,39 @@
+
+###############################################
+#   BROADSOFT_VOPRI_voice_port_module
+###############################################
+!
+voice-port [VAR_PORT_ADDRESS][VAR_PORT_NUM]
+no supervisory disconnect lcfo
+no battery-reversal
+loss-plan plan7
+alt-battery-feed feed2
+mwi
+no comfort-noise
+timeouts interdigit 4
+timeouts power-denial 900
+timing hookflash-in 750 150
+description [VAR_TEL_NUM]
+caller-id enable
+!
+dial-peer voice 601 voip
+corlist incoming 711
+description Inbound VOIP for FXS DN1
+huntstop
+session protocol sipv2
+session target sip-server
+session transport udp
+incoming called-number [VAR_TEL_NUM]
+dtmf-relay rtp-nte
+codec g711ulaw
+no vad
+!
+dial-peer voice [VAR_DIAL_PEER_NUM] pots
+corlist incoming 711
+ description Inbound and Outbound POTS for FXS DN1 [VAR_TEL_NUM]
+huntstop
+destination-pattern [VAR_TEL_NUM]
+port [VAR_PORT_ADDRESS][VAR_PORT_NUM]
+!
+
+

@@ -1,0 +1,42 @@
+
+###############################################
+#   BROADSOFT_CAS_1_trunk_module
+###############################################
+
+
+network-clock-participate T1 [VAR_PRI_CONTROLLER1]
+
+controller T1 [VAR_PRI_CONTROLLER1]
+mode cas
+framing esf
+clock source internal
+linecode b8zs
+ds0-group 0 timeslots 1-24 type e&m-wink-start
+description CAS Interface to  PBX
+!
+!
+voice-port [VAR_PRI_CONTROLLER1]:0
+description  [VAR_ACCT_NAME] - [VAR_ACCT_NUM]
+timeouts interdigit 5
+timeouts ringing infinity
+timeouts wait-release infinity
+timing wait-wink 4000
+output attenuation -3
+input gain 3
+!
+!
+dial-peer voice 100 pots
+description description  [VAR_ACCT_NAME] - [VAR_ACCT_NUM]
+destination-pattern [VAR_BTN]
+port [VAR_PRI_CONTROLLER1]:0
+forward-digits 4
+!
+dial-peer voice 101 pots
+huntstop
+preference 2
+destination-pattern .T
+port [VAR_PRI_CONTROLLER1]:0
+forward-digits 4
+no sip-register
+!
+

@@ -1,0 +1,40 @@
+<HTML>
+
+<HEAD>
+<TITLE>The IAD Sort Tool</TITLE>
+</HEAD>
+
+<BODY>
+
+
+<H1><i>IAD Sort Tool</i></H1>
+
+This will sort IAD names by market.  Enter IAD names from Excel file in the space below.
+<br>
+
+
+<FORM METHOD="POST" ACTION="/tools/IADsort.php">
+
+<P><TEXTAREA NAME="text1" COLS=45 ROWS=8 WRAP=virtual></TEXTAREA><br>
+<INPUT TYPE="reset" value="Clear text box"></P>
+
+<P><INPUT TYPE="checkbox" NAME="checkbox" VALUE="YES">Sort by market?</P>
+<P><INPUT TYPE="submit" NAME="submit" VALUE="Sort"></P>
+<P><INPUT TYPE="submit" NAME="submit" VALUE="Sort and show MGWs"></P>
+<P><INPUT TYPE="submit" NAME="submit" VALUE="Sort and show 1st SUB"></P>
+<P><INPUT TYPE="submit" NAME="submit" VALUE="Sort and show all SUBs"></P>
+<P><INPUT TYPE="submit" NAME="submit" VALUE="Sort and show FQDN"></P>
+<P><INPUT TYPE="submit" NAME="submit" VALUE="Disco Bounce"></P>
+<P><B>Account Number Tools</B></P>
+<P><INPUT TYPE="submit" NAME="submit" VALUE="Show subs based on account number"></P>
+
+
+</FoRM>
+<br><br>
+<button onClick="window.location='/tools/buttons.html'">Back to Buttons Home</button>
+
+
+
+</BODY>
+</HTML>
+

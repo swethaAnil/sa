@@ -1,0 +1,31 @@
+<html>
+<head>
+
+<title>2.0 Manager Menu - Service Activations</title>
+<style>
+
+body{
+	
+	text-align:center;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<br><br>
+<h4>Service Activations Online Schedule</h4>
+<h2>2.0 Manager Menu</h2>
+<br><br>
+<a href="v2_order_upload.htm">UPLOAD NEW 2.0 ORDER LIST</a>
+<br><br>
+<a href="add_v2_order.htm">ADD INDIVIDUAL 2.0 ORDER</a>
+<br><br>
+<a href="export_v2_orders.php">EXPORT EXCEL SPREADSHEET OF ALL 2.0 ORDERS</a>
+
+</body>
+</html> 

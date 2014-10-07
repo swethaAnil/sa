@@ -1,0 +1,203 @@
+
+###############################################
+#   BROADSOFT_SIP_universal_voice_module 
+###############################################
+
+!
+ip access-list extended Sip_Fraud_Protect_outbound
+permit udp any host 192.168.22.212 eq 5060
+permit udp any host 192.168.25.212 eq 5060
+!! Market specific SBC - [VAR_MARKET]
+[VAR_VAR_SIP_PROTECTED_IP_OUTBOUND]
+permit ip any 69.199.108.0 0.0.3.255
+permit tcp any eq 5060 any reflect OutboundSip
+permit tcp any any eq 5060 reflect OutboundSip
+permit udp any eq 5060 any reflect OutboundSip
+permit udp any any eq 5060 reflect OutboundSip
+permit ip any any
+!
+ip access-list extended Sip_Fraud_Protect_inbound
+!! Market specific SBC - [VAR_MARKET]
+[VAR_VAR_SIP_PROTECTED_IP_INBOUND]
+permit ip 69.199.108.0 0.0.3.255 any
+permit udp host 192.168.22.212 any eq 5060
+permit udp host 192.168.25.212 any eq 5060
+permit tcp any any neq 5060
+permit udp any any neq 5060
+permit icmp any any
+evaluate OutboundSip
+deny udp any any eq 5060 log
+deny tcp any any eq 5060 log
+permit ip any any log
+!
+!
+policy-map SIP_LAN_QOS
+class signaling
+set precedence 4
+class media
+set precedence 5
+!
+int [VAR_DATA_INTERFACE]
+service-policy input SIP_LAN_QOS
+!
+int [VAR_UPSTREAM_INTERFACE]
+h323-gateway voip bind srcaddr [VAR_IAD_SERIAL_IP]
+ip access-group Sip_Fraud_Protect_inbound in
+ip access-group Sip_Fraud_Protect_outbound out
+!
+voice service voip 
+fax protocol pass-through g711ulaw
+modem passthrough nse codec g711ulaw
+sip      
+bind control source-interface [VAR_UPSTREAM_INTERFACE]
+bind media source-interface [VAR_UPSTREAM_INTERFACE]
+!
+voice class codec 711
+codec preference 1 g711ulaw
+!
+! 
+application
+service dsapp
+param callWaiting TRUE
+param callHold TRUE
+param callConference TRUE
+param callTransfer TRUE
+!
+global
+service default dsapp
+!
+dial-peer voice 501 voip
+description National Dial Plan Dialing
+huntstop  
+destination-pattern [2-9].........
+progress_ind setup enable 3
+voice-class codec 711
+session protocol sipv2
+session target sip-server  
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad   
+!         
+dial-peer voice 502 voip
+description Bell Star Codes
+huntstop
+destination-pattern *..
+progress_ind setup enable 3 
+voice-class codec 711
+session protocol sipv2
+session target sip-server 
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad 
+!
+dial-peer voice 504 voip
+description Long-distance Dialing
+huntstop
+destination-pattern 1[2-9].........
+progress_ind setup enable 3
+voice-class codec 711
+session protocol sipv2
+session target sip-server  
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad   
+!         
+dial-peer voice 505 voip
+description International Dialing
+huntstop
+destination-pattern 011T
+progress_ind setup enable 3
+voice-class codec 711
+session protocol sipv2
+session target sip-server  
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad   
+!         
+dial-peer voice 506 voip
+description Service Number (911, 411, etc)
+huntstop
+destination-pattern [2-9]11
+progress_ind setup enable 3 
+voice-class codec 711
+session protocol sipv2
+session target sip-server  
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad 
+! 
+dial-peer voice 507 voip
+description Speed-Dial
+huntstop
+destination-pattern [2-9]T
+progress_ind setup enable 3
+voice-class codec 711
+session protocol sipv2
+session target sip-server
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad 
+! 
+dial-peer voice 508 voip
+description Casual Dialing
+huntstop
+destination-pattern 101...............
+voice-class codec 711
+session protocol sipv2
+session target sip-server
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad
+! 
+dial-peer voice 509 voip
+description Outbound CatchAll
+huntstop
+destination-pattern .T
+progress_ind setup enable 3
+voice-class codec 711
+session protocol sipv2
+session target sip-server
+session transport udp
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad
+!
+dial-peer voice 588 voip
+preference 2
+service session
+voice-class codec 711
+session protocol sipv2 
+session target sip-server  
+incoming called-number .%
+ip qos dscp cs5 media
+ip qos dscp cs4 signaling
+no vad
+!
+sip-ua 
+authentication username [VAR_ACCT_NUM] password [VAR_IADNAME]
+hookflash-info
+no remote-party-id
+set pstn-cause 47 sip-status 486
+retry invite 2
+retry response 3
+retry bye 3
+retry prack 6
+retry notify 5
+timers expires 300000
+timers notify 100
+mwi-server dns:[VAR_BWAS_FQDN] expires 3600 port 5060 transport udp unsolicited
+registrar dns:[VAR_BWAS_FQDN] expires 300   
+sip-server dns:[VAR_BWAS_FQDN]
+! 
+! 
+telephony-service
+max-conferences 4 gain -6
+transfer-system full-consult
+!

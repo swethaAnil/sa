@@ -1,0 +1,19 @@
+
+###############################################
+#   FIBER_TAR_module
+###############################################
+
+!
+interface [VAR_10K_INTERFACE]
+description [VAR_IADNAME] - [VAR_ACCT_NAME] - [VAR_FIBER_CID]
+encapsulation dot1Q [VAR_FIBER_VLAN]
+ip address [VAR_10K_SERIAL_IP] [VAR_SERIAL_SUBNET]
+service-policy output EFM-[VAR_BANDWIDTH]M
+!
+!
+ip route [VAR_IAD_PUBLIC_NETWORK] [VAR_PUBLIC_SUBNET_MASK] [VAR_10K_INTERFACE] [VAR_IAD_SERIAL_IP]
+!
+!
+
+
+

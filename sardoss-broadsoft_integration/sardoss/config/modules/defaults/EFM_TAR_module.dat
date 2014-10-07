@@ -1,0 +1,19 @@
+
+###############################################
+#   EFM_TAR_module
+###############################################
+
+!
+interface Port-channel1.[VAR_EFM_VLAN]
+ description [VAR_IADNAME] - [VAR_ACCT_NAME] - [VAR_EFM_SWITCH] - HSL-[VAR_EFM_HSL]
+ encapsulation dot1Q [VAR_EFM_VLAN]
+ ip address [VAR_10K_SERIAL_IP] [VAR_SERIAL_SUBNET]
+ service-policy output EFM-[VAR_BANDWIDTH]M
+!
+!
+ip route [VAR_IAD_PUBLIC_NETWORK] [VAR_PUBLIC_SUBNET_MASK] Port-channel1.[VAR_EFM_VLAN] [VAR_IAD_SERIAL_IP]
+!
+!
+
+
+

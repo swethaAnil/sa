@@ -1,0 +1,11 @@
+
+###############################################
+#   T1_MULTI_TAR_POST_serial_port_module
+###############################################
+
+!
+interface [VAR_T1_SERIAL]
+snmp trap link-status
+logging event link-status
+!
+

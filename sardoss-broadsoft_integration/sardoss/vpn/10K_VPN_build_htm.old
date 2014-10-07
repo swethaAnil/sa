@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd"> 
+
+<html>
+<head>
+ 
+<title>VPN for 10K Builder</title>
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="../style/sardoss_style_ie.css" />
+<![endif]-->
+
+<!--[if !IE]><!-->
+<link rel="stylesheet" type="text/css" href="../style/sardoss_style.css" />
+<!--<![endif]-->
+
+
+<script type="text/javascript">
+    
+    
+function getSelectedRadioValue(buttonGroup) {
+   // returns the value of the selected radio button or "" if no button is selected
+   var i = getSelectedRadio(buttonGroup);
+   if (i == -1) {
+      return "";
+   } else {
+      if (buttonGroup[i]) { // Make sure the button group is an array (not just one button)
+         return buttonGroup[i].value;
+      } else { // The button group is just the one button, and it is checked
+         return buttonGroup.value;
+      }
+   }
+} // Ends the "getSelectedRadioValue" function
+
+
+function getSelectedRadio(buttonGroup) {
+   // returns the array number of the selected radio button or -1 if no button is selected
+   if (buttonGroup[0]) { // if the button group is an array (one button is not an array)
+      for (var i=0; i<buttonGroup.length; i++) {
+         if (buttonGroup[i].checked) {
+            return i
+         }
+      }
+   } else {
+      if (buttonGroup.checked) { return 0; } // if the one button is checked, return zero
+   }
+   // if we get to this point, no radio button is selected
+   return -1;
+} // Ends the "getSelectedRadio" function
+
+
+
+function show_confirm(){
+
+
+var Missing = "";
+var Msg = "";
+var VLAN_ID = document.forms[0].vlan.value;
+var TAR = document.forms[0].tar.value;
+var TAR_LENGTH = TAR.length;
+var TAR_INIT = document.forms[0].tar.value.substring(0,3).toLowerCase(); 
+var accessvalue = getSelectedRadioValue(document.forms[0].access);
+
+//check for NULL values
+if(document.forms[0].parent_acct.value==""){
+	Missing = Missing + "Parent Account Number\n";
+	}	
+if(document.forms[0].cust_name.value==""){
+	Missing = Missing + "Customer Name\n";
+	}
+if(document.forms[0].site_num.value==""){
+	Missing = Missing + "Site Number\n";
+	}
+if(document.forms[0].tar.value==""){
+	Missing = Missing + "10K\n";
+	}
+if(document.forms[0].loopback.value==""){
+	Missing = Missing + "10K Loopback 10 IP\n";
+	}
+if(document.forms[0].iad_name.value==""){
+	Missing = Missing + "IAD Name\n";
+	}
+if(document.forms[0].iad_wan.value==""){
+	Missing = Missing + "IAD WAN Interface\n";
+	}
+if(accessvalue == "EFM" && document.forms[0].vlan.value==""){
+	Missing = Missing + "VLAN ID\n";
+	}
+if(accessvalue == ""){
+	Missing = Missing + "Access Type\n";
+	}
+
+//NULL values alert	
+if(Missing != ""){	
+	Missing = "No values provided for the following field(s):\n\n" + Missing;
+	alert(Missing)
+	return false;
+	}
+
+//check loopback IP address
+var patt = /192\.168\.[0-9]+\.[0-9]+/i;
+var loopback_ip = document.forms[0].loopback.value;
+if(loopback_ip.match(patt) == null || loopback_ip.length > 15){
+    alert("ERROR! - 10K loopback IP address doesn't look right. \n\nUse \"show interface Loopback10\" in the 10K to get the correct IP.")
+    return false;
+}
+	
+	
+//check TAR name
+if(TAR_INIT == "tar" || TAR_INIT == "car" || TAR_INIT == "asr"){
+	if(TAR_LENGTH != 8){
+		alert("ERROR! - 10K name doesn't look right. (" + TAR + ")\n\nPlease double-check 10K name.")
+		return false;
+	}	
+}else{
+	alert("ERROR! - 10K name doesn't look right. (" + TAR + ")\n\nPlease double-check 10K name.")
+	return false;
+	}	
+
+	
+//check for incorrect VLAN value	
+if(document.forms[0].vlan.value != ""){
+	if(VLAN_ID < 600 || VLAN_ID > 3000){
+		alert("ERROR! - VLAN " + VLAN_ID + " is incorrect.\n\n Please double-check the VLAN ID.")
+		return false;
+	}
+}
+	
+//check for incorrect IADname value	
+if(document.forms[0].iad_name.value.substring(0,3).toLowerCase() != "iad" || document.forms[0].iad_name.value.length < 10){
+	alert("ERROR! - IAD Name doesn't look right. (" + document.forms[0].iad_name.value + ")\n\nPlease double-check IAD name.")
+	return false;
+	}	
+
+//check for interface mis-match
+if(accessvalue == "T1" && document.forms[0].vlan.value != ""){
+	alert("ERROR! - Access Type mis-match.\n\nYou've selected T1 access and also indicated a VLAN.")
+	return false;
+	}
+if(accessvalue == "T1" && document.forms[0].iad_wan.value == "FastEthernet0/0."){
+	alert("ERROR! - Access Type mis-match.\n\nAccess Type doesn't match IAD WAN interface.")
+	return false;
+	}	
+if(accessvalue == "EFM" && document.forms[0].iad_wan.value != "FastEthernet0/0."){
+	alert("ERROR! - Access Type mis-match.\n\nAccess Type doesn't match IAD WAN interface.")
+	return false;
+	}	        
+if(accessvalue == "EFM" && document.forms[0].vlan.value == ""){
+	alert("ERROR! - No VLAN ID provided for EFM/Fiber access.\n\nPlease enter a VLAN ID if access type is EFM or Fiber.")
+	return false;
+	}	
+
+        
+        
+//site number alert
+if(document.forms[0].site_num.value != "1"){
+	var site_question = confirm("ALERT! - You've indicated this is SITE #" + document.forms[0].site_num.value + ".\n\nPLEASE MAKE SURE THE VRF IS ALREADY BUILT ON THE 10K BEFORE PROCEEDING.\n\nIf the VRF is not configured, check the \"Include VRF, BGP, RIP\" checkbox before proceeding.");
+	if(site_question){
+		}
+	else{
+		return false;
+		}	
+	}	
+	
+}
+
+</script>
+
+<style>
+
+    td.form_title{
+           font-size:70%;
+           font-weight: bold;
+           text-align:left;
+    }
+    
+    td.form_field{
+           font-size:70%;
+           font-weight: bold;
+           text-align:left;
+    }
+    
+    
+</style>
+
+</head>
+
+<body onLoad="document.forms.input.cust_name.focus()">
+<div class="titlecolor">
+
+<div class="title">
+<img style="margin:10px;" src="../images/SA_title_words_small.png">
+</div>
+
+<div class="pagetitle"><a href="/sardoss">Home</a>
+<span class="location">
+ / <a href="../config/config_gen_order_form.php">ReDCON</a>
+ / <u>VPN for 10K</u></span>
+</span>
+</div>
+
+</div>
+
+<hr class="topline" />
+<div class="optionbar">
+<a style="padding-left:10px;" href="../config/config_archive.php">Config Archive</a>
+<a style="padding-left:10px;" href="../config/config_modules.php">Config Modules</a>
+<a style="padding-left:10px;" href="../base/base_configs.php">Base Configs</a>
+<a style="padding-left:10px;" href="../vpn/10K_VPN_build.htm">VPN for 10K</a>
+<a style="padding-left:10px;" href="/schedule">Online Schedule</a>
+<div class="current_user"><?php echo "User: $_SESSION[username]"; ?></div>
+</div>
+
+<div id="nojs"><br /><br />
+JavaScript must be enabled in your browser in order to use this tool.<br />
+JavaScript is either disabled or not supported by your browser.<br /><br />
+Enable Javascript in your browser options and try again.</div>
+
+
+<div id="fullpage" style="display:none">
+
+<center>
+<div style="min-width:350px;margin:20px;padding:5px;width:50%;border-style:ridge;border-width: 3px;text-align: center;">
+DISCLAIMER: There is minimal error checking on these values.  
+    If you enter the wrong info, your configs will be wrong.<br /><br />  
+<font color=red>Review ALL configs (especially IPs) before use.</font>
+<br><br>
+NOTE: Do not check the "Include VRF, BGP, RIP?" checkbox if the VRF<br>is already built in your 10K.
+    </div>
+
+
+<form name="input" onsubmit="return show_confirm()" action="10K_VPN_build.php" method="post">
+
+<table border="0" cellpadding="0">
+    
+<tr><td class="form_title">Customer Name</td></tr>
+<tr><td class="form_field"><input type="text" style="width:200px;" class="text" name="cust_name"></td></tr>
+    
+<tr><td class="form_title">Parent Account Number</td><td class="form_title">Site Number</td></tr>
+<tr><td class="form_field"><input type="text" class="text" name="parent_acct" maxlength="6"></td>
+
+<td class="form_field"><select name="site_num" style="background-color:#E6E6E6;">
+	<option value=""></option>
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+	<option value="32">32</option>
+	<option value="33">33</option>
+	<option value="34">34</option>
+	<option value="35">35</option>
+	<option value="36">36</option>
+	<option value="37">37</option>
+	<option value="38">38</option>
+	<option value="39">39</option>
+	<option value="40">40</option>
+	<option value="41">41</option>
+	<option value="42">42</option>
+        </select>
+		
+ <span class="form_title">&nbsp;&nbsp;&nbsp;Include VRF, BGP, RIP?</span><input type="checkbox" class="text" name="vrf"></td></tr>
+   
+<tr><td class="form_title">10K Name</td><td class="form_title">10K Loopback10 IP <em> - "show int loopback10"</em></td></tr>
+<tr><td class="form_field"><input type="text" class="text" name="tar" maxlength="8"></td><td class="form_field"><input type="text" class="text" name="loopback" maxlength="15"></td></tr>
+
+<tr><td class="form_title">IAD Name</td><td class="form_title">IAD WAN interface</td></tr>
+<tr><td class="form_field"><input type="text" class="text" name="iad_name" maxlength="11"></td>
+<td class="form_field"><select name="iad_wan" style="background-color:#E6E6E6;">
+	<option value=""></option>
+	<option value="Serial1/0:0">Serial1/0:0</option>
+	<option value="Multilink1">Multilink1</option>
+	<option value="FastEthernet0/0.">FastEthernet0/0.[VLAN]</option>
+	</select></td></tr>
+
+<tr><td class="form_title" >Access Type</td><td class="form_title">VLAN ID (EFM/Fiber)</td></tr>
+<tr><td align="center" style="font-size:75%;">
+        <input type="radio" name="access" value="T1">T1 &nbsp; 
+        <input type="radio" name="access" value="EFM">EFM/FIBER
+</td>
+<td class="form_field"><input type="text" class="text" name="vlan" maxlength="4"><td></tr>
+
+<tr><td>&nbsp;<br /></td></tr>
+<tr><td align="right"><INPUT TYPE="submit" NAME="submit" class="button" VALUE="Generate Config"></td>
+<td align="left"><INPUT TYPE="reset" class="button" VALUE="Reset"></td></tr>
+</table>
+
+</center>
+</FoRM>
+
+</div>
+
+<script>
+//if script enabled warning message hidden.
+document.getElementById('nojs').style.display="none";
+document.getElementById('fullpage').style.display="inline";
+</script>
+
+
+
+</body>
+</html>

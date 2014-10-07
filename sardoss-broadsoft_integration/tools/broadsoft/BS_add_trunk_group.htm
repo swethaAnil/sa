@@ -1,0 +1,40 @@
+<html>
+
+<title>SA - Add Trunk Group/Pilot User</title>
+
+
+
+<body>
+
+<br><br>
+<center>
+<h4>Add Trunk Group/Pilot User</h4>
+
+<p><i>(Calls the 'addTrunkUserFor...' function)</i></p>
+
+<form action="BS_add_trunk_group.php" method="POST">
+
+<table><tr><td>
+
+<tr><td align="right">Type of Service:</td><td><select name="svc_type">
+<option value=""></option>
+<option value="EnhancedDigital">Enhanced Digital</option>
+<option value="VoiceOnlyPRI">Voice-only PRI</option>
+<option value="SipConnect">SIPConnect</option>
+</select><br /></td></tr>
+
+<tr><td align="right">Account Number:</td><td><input type="text" name="acct_num"></td></tr>
+<tr><td align="right">Trunk TN:</td><td><input type="text" name="trunkTN"> - usually account BTN</td></tr>
+<tr><td align="right">Charge Number:</td><td><input type="text" name="chargeNum"> - usually account BTN</td></tr>
+<tr><td align="right">Call Capacity:</td><td><input type="text" name="capacity"></td></tr>
+<tr><td align="right">Trunk Registration Password:</td><td><input type="text" name="password"> - usually the IAD name</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td align="right"><input type="submit" name="Submit" value="SUBMIT"></td><td><input type="reset" name="reset" value="RESET"></td></tr>
+</table>
+</form>
+</center>
+</body>
+
+</html>
+
+

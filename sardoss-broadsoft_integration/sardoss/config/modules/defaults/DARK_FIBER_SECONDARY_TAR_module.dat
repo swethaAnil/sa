@@ -1,0 +1,22 @@
+
+###############################################
+#   DARK_FIBER_SECONDARY_TAR_module
+###############################################
+
+!
+interface [VAR_10K_INTERFACE_SECONDARY]
+description [VAR_IADNAME] - [VAR_ACCT_NAME] - [VAR_FIBER_CID] - SECONDARY
+encapsulation dot1Q [VAR_FIBER_SITE_VLAN] second-dot1q [VAR_FIBER_VLAN]
+ip address [VAR_10K_SECONDARY_SERIAL_IP] [VAR_SERIAL_SUBNET]
+standby version 2
+standby [VAR_FIBER_VLAN] ip [VAR_10K_SERIAL_IP]
+standby [VAR_FIBER_VLAN] timers 1 4
+service-policy output EFM-[VAR_BANDWIDTH]M
+!
+!
+ip route [VAR_IAD_PUBLIC_NETWORK] [VAR_PUBLIC_SUBNET_MASK] [VAR_10K_INTERFACE_SECONDARY] [VAR_IAD_SERIAL_IP]
+!
+!
+
+
+

@@ -1,0 +1,84 @@
+
+###############################################
+#   BROADSOFT_PRI_2_trunk_module
+###############################################
+
+!
+trunk group BVIII_TRUNK_GROUP
+hunt-scheme sequential
+!
+isdn voice-call-failure 0
+!
+network-clock-participate T1 [VAR_PRI_CONTROLLER1]
+network-clock-participate T1 [VAR_PRI_CONTROLLER2]
+!
+controller T1 [VAR_PRI_CONTROLLER1]
+framing esf
+clock source internal
+linecode b8zs
+pri-group timeslots 1-24
+description PRI Interface to  PBX
+!
+interface Serial[VAR_PRI_CONTROLLER1]:23
+no ip address
+encapsulation hdlc
+no logging event link-status
+isdn supp-service name calling
+isdn switch-type primary-ni
+isdn protocol-emulate network
+isdn incoming-voice voice
+isdn send-alerting
+isdn bchan-number-order ascending 
+isdn outgoing ie facility 
+no isdn outgoing ie display 
+trunk-group BVIII_TRUNK_GROUP 1
+no cdp enable
+!
+voice-port [VAR_PRI_CONTROLLER1]:23
+description  [VAR_ACCT_NAME] - [VAR_ACCT_NUM]
+output attenuation -3
+input gain 3
+!
+controller T1 [VAR_PRI_CONTROLLER2]
+framing esf
+clock source internal
+linecode b8zs
+pri-group timeslots 1-24
+description PRI Interface to  PBX
+!
+interface Serial[VAR_PRI_CONTROLLER2]:23
+no ip address
+encapsulation hdlc
+no logging event link-status
+isdn supp-service name calling
+isdn switch-type primary-ni
+isdn protocol-emulate network
+isdn incoming-voice voice
+isdn send-alerting
+isdn bchan-number-order ascending 
+isdn outgoing ie facility 
+no isdn outgoing ie display 
+trunk-group BVIII_TRUNK_GROUP 2
+no cdp enable
+!
+voice-port [VAR_PRI_CONTROLLER2]:23
+description  [VAR_ACCT_NAME] - [VAR_ACCT_NUM]
+output attenuation -3
+input gain 3
+!
+dial-peer voice 100 pots
+description description  [VAR_ACCT_NAME] - [VAR_ACCT_NUM]
+destination-pattern [VAR_BTN]
+direct-inward-dial
+trunkgroup BVIII_TRUNK_GROUP
+forward-digits 4
+!
+dial-peer voice 101 pots
+huntstop
+preference 2
+destination-pattern .T
+direct-inward-dial
+trunkgroup BVIII_TRUNK_GROUP
+forward-digits 4
+no sip-register
+!

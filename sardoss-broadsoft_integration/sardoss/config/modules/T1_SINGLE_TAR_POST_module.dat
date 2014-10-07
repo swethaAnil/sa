@@ -1,0 +1,11 @@
+
+###############################################
+#   T1_SINGLE_TAR_POST_module
+###############################################
+
+!
+interface [VAR_T1_SERIAL]
+snmp trap link-status
+logging event link-status
+no peer default ip address
+!
